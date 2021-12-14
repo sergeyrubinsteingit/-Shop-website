@@ -1,4 +1,7 @@
 # &Shop-website
+
+http://andshop-web.infinityfreeapp.com
+
 Art gallery website; still under construction, do forgive me for this obnoxious phrase. :-)
 
 Written in Vanilla Javascript.
