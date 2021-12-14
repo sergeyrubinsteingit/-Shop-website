@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="description" content="Running pictures gallery">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-name" content="&Shop">
+<!-- Style sheet for this page: -->
+<link rel="stylesheet" href="..\CSS_\gallery_styles_.css">  
+
+<title>Gallery</title>
+
+<script>
+var wW = window.innerWidth
+
+	let illustr_pg_path_ = 'pages\\illustrPg.html';
+	let gall_hint_ = "Pass a mouse over a picture in the gallery to read an annotation. Click to see the full-size images in Illustrations gallery and to download them.";
+	let gal_pic_name = [ // Gallery's pictures.
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+				]; //eoArray
+	let gal_pic_annotation = [ // Gallery's annotations to the pictures.
+		'Flexibility is defined as the ability to change, to bend, or to persuade. An example of flexibility is being able to work whenever one wants.',
+		'A melodic instrument for the most part, the flute has a clear and bright sound with a distinctive warmth, refinement, and subtlety to its tone.',
+		'Octopuses have 9 brains because, in addition to the central brain, each of 8 arms has a mini-brain that allows it to act independently. ',
+		'Rainbows are frequently represented in Western art and culture, as a sign of hope and promise of better times to come. ',
+		'Because your candle burns too bright, \Well, I almost forgot it was twilight; \Even if I think that you are right, \r\nWell, I\'m tired of being down, I got no fight... \Elliott Smith ',
+		'The Lion of Saint Mark is a winged lion that symbolically represents Saint Mark the Evangelist, patron of Venice.\nIt doesn\'t have an official or political meaning, but only a popular and religious origin.',
+
+				]; //eoArray
+
+function setGalleryDiv(){ // Size and place of the gallery mini-screen.
+	document.getElementById('galleryDiv').style.width = wW * 0.32 +'px';
+	document.getElementById('galleryDiv').style.top = 0 +'px';
+	document.getElementById('galleryDiv').style.left = wW * 0.5 +'px';
+	
+	document.getElementById('galleryCommentsCont').style.width = wW * 0.3 +'px';
+	document.getElementById('galleryCommentsCont').style.height = wW * 0.15 +'px';
+	document.getElementById('galleryCommentsCont').style.top = wW * 0.35 +'px';
+	document.getElementById('galleryCommentsCont').style.left = wW * 0.55 +'px';
+	
+	document.getElementById('galleryComments').style.width = wW * 0.25 +'px';
+	document.getElementById('galleryComments').style.height = wW * 0.1 +'px';
+	document.getElementById('galleryComments').innerHTML = '<p>'+gall_hint_+'</p>'
+	
+var waitDv = document.getElementById('waitD');
+		
+	waitDv.style.width = wW * 0.32 +'px';
+	waitDv.style.top = 0 +'px';
+	waitDv.style.left = wW * 0.5 +'px';
+	waitDv.style.display = 'none';
+	
+	dynamicGallery ();
+}//EOF
+	var y;
+	var x = -1;
+	var a = -1;
+	var b = 37;
+	var glDiv1;
+	var waitD;
+function dynamicGallery (waitD) { // Arranges dropping down of the gallery mini-screen. Implementes square trinomial.
+		glDiv1 = document.getElementById('galleryDiv');
+		waitD = document.getElementById('waitD');
+			x++;
+			y=Math.pow(x,2)*a + x*b;
+			glDiv1.style.height = wW * Math.round(y/10)/100 + "px";
+			waitD.style.height = wW * Math.round(y/10)/100 + "px";
+				if (x==27){
+					clearTimeout (tm);
+					document.getElementById('galleryComments').style.display = 'block';
+					glDiv1.style.zIndex = 1;
+					waitD.style.position = 'absolute';
+					waitD.style.zIndex = 2;
+					waitD.style.display = 'block';
+					waitD.style.backgroundColor = '#a80c1b';
+					waitD.style.opacity = 0.9;
+					waitD.innerHTML = '<div id=\'loadDv\'><center>Loading...</center></div>';
+					buildGallery ();
+					return;
+				}	
+	var tm = setTimeout (dynamicGallery,50);
+}//eof
+	const pcFld = '..\\pictures\\illustrations\\illustrHR\\';
+	var glPc = ['flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png'];
+	var pcD;
+	var scD;
+	var atr_1, atr_2, atr_3, atr_4;
+	var imgD;
+	var tm2;
+	var fl;
+function buildGallery () {
+	
+	console.log ('Path to pictures: pcFld = '+ pcFld); 
+////////////////////////////////////////////
+/*
+	This function dynamically creates UI pictures gallery ( top-right on the screen)
+	*/
+///////////////////////////////////////////
+	
+			scD = document.createElement('div');
+			atr_1 = document.createAttribute('id') ;
+			atr_1.value = 'scrollDiv';
+			scD.setAttributeNode(atr_1); 
+			glDiv1.appendChild(scD);
+			
+			var gH = document.getElementById('galleryDiv').clientHeight;
+			var gW = document.getElementById('galleryDiv').clientWidth;
+			var frstPc = glPc[0];
+			glPc.push (frstPc);
+
+		for (var i=0; i<glPc.length; i++) {
+			
+			pcD = document.createElement('div');
+			imgD = document.createElement('img');
+			imgD.className = 'glImg';
+			atr_2 = document.createAttribute('src') ;
+			atr_2.value = pcFld + glPc[i];
+			atr_3 = document.createAttribute('style') ;
+			atr_3.value = 'height:' + gH*1.9 + 'px; width: auto; top: ' + gH*(-.3) + 'px; left:' + gW*(-.05) + 'px; margin: 0 auto;';
+			atr_4 = document.createAttribute('name') ;
+			atr_4.value = glPc[i];
+			imgD.setAttributeNode(atr_2); 
+			imgD.setAttributeNode(atr_3);
+			imgD.setAttributeNode(atr_4); 
+			imgD.onmouseover = function () { if (this.nodeName.toLowerCase() === 'img') {pic_annotation(this.name); return;} };			
+			imgD.onmouseout = function () { document.getElementById('galleryComments').innerHTML = '<p>'+gall_hint_+'</p>';
+											document.getElementById("galleryComments").style.color = '#ffffff'; return; };
+			imgD.onclick = function () {alert("Sorry, the option is not added yet."); parent.navigation (0,1); return};
+			atr_5 = document.createAttribute('style') ;
+			atr_5.value = 'max-width:' + gW*1.1 + 'px; max-height:;' + gH*1.1 +'px; padding: 2px;';
+			pcD.className = 'pcD';
+			pcD.setAttributeNode(atr_5); 
+
+			pcD.appendChild(imgD);
+			scD.appendChild(pcD);
+		}//eofor
+				console.log(glPc[glPc.length-1]);
+	imLoad ();
+return;
+}//eof
+function pic_annotation(pic_nm_){ // Prints an annotation to pictre from [gal_pic_annotation] array.
+	var pic_ix_ = gal_pic_name.indexOf(pic_nm_);
+	document.getElementById("galleryComments").innerHTML = gal_pic_annotation[pic_ix_];
+	document.getElementById("galleryComments").style.color = '#d6ac15';
+}//eof
+var tm;	
+function imLoad (){ // Arranges pictures loading.
+	var imgNodes = document.querySelectorAll('.glImg');
+	var lstImg = imgNodes[imgNodes.length - 1];
+	var waitD = document.getElementById('waitD');
+		if (lstImg.complete == true && lstImg.naturalHeight != 0) {
+			clearTimeout (tm2);
+			console.log ('+++LOADED+++');
+			setTimeout ( function () { fade ()}, 100);
+			tm = setInterval( function () {scrollGl(imgNodes);},5000);
+			return;
+			} 
+			else 
+			{
+			waitD.style.display = 'block';
+			waitD.style.zIndex = 5;
+			console.log ('---WAIT---')
+			}
+	tm2 = setTimeout (imLoad,5000);
+}//eof
+let op = 0.9;
+var tmmm ;
+function fade () { // Makes a color screen above the first picture in the gallery gradually disappear.
+	let waitD = document.getElementById('waitD');
+		op = op - 0.01;
+		waitD.style.opacity = op;
+			if ( op < 0 ) { clearTimeout (tmmm);waitD.style.display = 'none'; return; }
+		tmmm = setTimeout ( fade, 50 );
+}//eof
+let dstn = 0;
+let incr = 15;
+let drct = 1;
+let cnn = 0;
+let tmm
+function scrollGl (imgNodes) { // Scrolling a gallery.
+	var glOutW = document.getElementById('galleryDiv').clientWidth;
+	var glInnW = document.getElementById('scrollDiv').clientWidth;
+	var picW = document.getElementsByClassName('pcD')[0].clientWidth;
+	var scrL = document.getElementById('galleryDiv');
+	var imgNodes = document.querySelectorAll('.glImg');
+		for (let i=0;i<imgNodes.length;i++) {
+			imgNodes[i].addEventListener('mouseover', stopGl,false);
+			imgNodes[i].addEventListener('mouseout', stopGl,false);
+		}
+		cnn+= picW/10;
+		dstn += picW/10;
+		scrL.scrollLeft = dstn ;
+				if (dstn == picW*(glPc.length-1)) { dstn = 0;   /*  clearInterval(tm);return ; */}
+				if (cnn == picW){ cnn = 0; clearTimeout(tmm); return;}	
+					//	console.log ('dstn= ' + dstn + '  picW=' + picW + '  cnn= ' + cnn );
+		tmm = setTimeout (scrollGl,50);
+}//eof
+var flg1 = true;
+function stopGl () { // Either arrests scrolling a gallery or resume the scrolling after stopping it.
+	if ( flg1 == true) {clearInterval (tm); flg1 = false; return flg1;} 
+	if ( flg1 == false) {tm = setInterval( function () {scrollGl();},5000); flg1 = true;console.log ('nnbnbnbbn'); return flg1; }
+}//eof
+</script>
+
+</head>
+
+<body onload = "setGalleryDiv();">
+<div id="container">
+	<div id="galleryDiv"></div>
+	<div id="galleryCommentsCont">
+		<div id="galleryComments"></div>
+	</div>
+	<div id="waitD">Loading is in progress, please wait...</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="description" content="Illustrations page of the site">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-name" content="&Shop">
+<!-- Style sheet for this page: -->
+<link rel="stylesheet" href="..\CSS_\illustrations_styles_.css"> 
+
+<title>Illustration gallery</title>
+
+<script>
+	var clrs = ['#990000','#cc3300','#660000','#cc0000','#990000','#cc3300','#660000','#cc0000','#990000','#cc3300','#660000','#cc0000','#990000','#cc3300','#660000','#cc0000',];
+	var emptArr = [];
+	var x = 0;
+	var glPc = [ // Illustrations.
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+				]; //eoArray
+
+	var pcAnnt = [// Annotations to the pictures.
+		'Flexibility is defined as the ability to change, to bend, or to persuade. An example of flexibility is being able to work whenever one wants.',
+		'A melodic instrument for the most part, the flute has a clear and bright sound with a distinctive warmth, refinement, and subtlety to its tone.',
+		'Octopuses have 9 brains because, in addition to the central brain, each of 8 arms has a mini-brain that allows it to act independently. ',
+		'Rainbows are frequently represented in Western art and culture, as a sign of hope and promise of better times to come. ',
+		'Because your candle burns too bright, \Well, I almost forgot it was twilight; \Even if I think that you are right, \r\nWell, I\'m tired of being down, I got no fight... \Elliott Smith ',
+		'The Lion of Saint Mark is a winged lion that symbolically represents Saint Mark the Evangelist, patron of Venice.\nIt doesn\'t have an official or political meaning, but only a popular and religious origin.',
+
+				]; //eoArray
+
+	var a;
+	var n = 0;
+	var modulo = 4;
+	var frmDv;
+	const pcFld = '..\\pictures\\illustrations\\illustrHR\\';
+		var idX;
+	var ddd;
+	let c = 0;
+window.onload = function () {
+	let glPc = [ // Illustrations.
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+		'flexi.jpg', 'flute.jpg', 'octopus.png', 'rainbow.jpg', 'twilight.png', 'venice21.png',
+				]; //eoArray
+	var glrL = glPc.length;
+	
+	var plcHl = document.createElement ('div');
+		plcHl.className = 'rowHldD';
+	
+	for (var i=-modulo;i<glrL-1;i++) {
+		x++;		
+		emptArr.push(glPc[0]);
+		glPc.shift();
+			if ( x%modulo==0 ) {
+				n++;
+				a = modulo + (n - 1)*(modulo - 1);
+				createRow(emptArr,x-a);
+				emptArr = [];
+				}  
+	}//eofor
+}//eof
+
+	var idN = 0;
+function createRow (picts, clrInd) {
+
+	var pcSet = Array.from(picts);
+		var wH = window.innerHeight;
+		var plcHl = document.createElement ('div');
+		plcHl.className = 'rowHldD';
+			for (ii=0;ii<pcSet.length;ii++) {
+				let picSrc = pcFld + pcSet [ii];
+				idN++;
+				if (typeof pcSet [ii] !== 'undefined') {
+					var pcFr = document.createElement ('div');
+					pcFr.className = 'pcFr';
+					var pcFrId = document.createAttribute('id');
+					pcFrId.value = 'pcFr'+idN;
+					pcFr.setAttributeNode(pcFrId);
+					var gImg = document.createElement ('img');
+					
+					try {
+						Object.assign (gImg, {
+							className : 'gImg',
+							name: pcSet [ii],
+							src : picSrc,
+							width : wH*.15,
+						//	height : wH*.17,
+							zIndex : 2,
+							onclick : function () {picSelect(this.name);},
+						});//eoassign
+						}catch(err) {gImg.onerror=null;}
+
+					var wtBck = document.createElement ('div');
+					wtBck.className = 'wtBck';
+					wtBck.appendChild (gImg);
+					pcFr.appendChild (wtBck);
+					
+					pcFr.style.backgroundColor = clrs [10*Math.random().toFixed(1)];
+					pcFr.style.height = wH*.27 + 'px';
+					pcFr.style.width =  wH*.27 + 'px';
+					pcFr.style.borderStyle = 'none';
+					pcFr.style.borderRadius = '7px';
+					pcFr.style.verticalAlign = 'bottom';
+
+					plcHl.appendChild (pcFr);
+				}
+				else
+				{
+					pcSet[ii]=null;
+				} 
+			}//eofor
+
+		document.getElementById('insdCont').appendChild(plcHl); imgResize(); return false;
+}//eof
+function imgResize () {
+	let x = 0;
+	let t = setInterval ( function () {
+	var imgNode = document.querySelectorAll ('.gImg');
+	var lstImg = imgNode[imgNode.length-1];
+		if (lstImg.complete == true && lstImg.naturalHeight != 0) {
+			clearInterval(t);
+			for (let i=0;i<imgNode.length;i++) {
+				var imgLdd = imgNode[i];
+				var imgH = imgLdd.clientHeight;
+				var imgW = imgLdd.clientWidth;
+					if ( imgH < imgW || imgH == imgW  ) {
+						document.getElementsByClassName('gImg')[i].style.width = 100 + '%';
+						document.getElementsByClassName('gImg')[i].style.height = 'auto';
+						document.getElementsByClassName('wtBck')[i].style.width = 80 + '%';
+						document.getElementsByClassName('wtBck')[i].style.height = 'auto'; 
+					}
+					else
+					{
+						document.getElementsByClassName('gImg')[i].style.height = 100 + '%';
+						document.getElementsByClassName('gImg')[i].style.width = 'auto';
+						document.getElementsByClassName('wtBck')[i].style.height = 85 + '%';
+						document.getElementsByClassName('wtBck')[i].style.width = 'auto';
+					}//eoif
+			}//eofor
+		}
+		else
+		{
+			console.log ('Checking img loading************');
+			x++;
+			console.log ('x = '+x);
+			 if ( x>5 ) { lstImg = null; }
+		}
+	},1000);
+}//eof
+
+function picSelect (name) {
+	const elNm = (element) => element == name;
+	console.log('glPc.findIndex(elNm)   '+glPc.findIndex(elNm));
+	const anntIx = glPc.findIndex(elNm);
+
+	try {
+	document.getElementById('screenD').style.opacity = .9;
+	document.getElementById('screenD').style.display = 'block';
+	document.getElementById('selCntOut').style.display = 'table';
+	document.getElementById('picHoldD').innerHTML = '<img class=\'imSel\' src=\'' + pcFld + name +'\' />';
+		let thisImg = document.getElementsByClassName('imSel')[0];
+		if (thisImg.naturalHeight == 0) {alert('Sorry, this image is unavaliable'); 
+										document.getElementById('screenD').style.display = 'none';
+										document.getElementById('selCntOut').style.display = 'none';
+										return false;}
+		let thisImgH = thisImg.clientHeight;
+		let thisImgW = thisImg.clientWidth;
+		let dshBD = document.getElementById('dashBrD');
+			if (thisImg.complete == true && thisImg.naturalHeight != 0) {
+				<!-- Fits a div size to content. -->
+					document.getElementById('picHoldD').style.display = 'inline-block';
+
+				if (thisImgH > thisImgW) {
+						thisImg.addEventListener('load', function () {
+						thisImg.style.height = window.innerHeight*.65 + 'px';
+						thisImg.style.width = 'auto';
+						dshBD.style.height = window.innerHeight*.65 + 'px';
+						dshBD.style.width = window.innerWidth*.25 + 'px';
+						document.getElementById('selCntOut').style.width = window.innerWidth*.65 + 'px';
+						
+						document.getElementById('dashBrInsCont').insertAdjacentHTML('afterbegin', '<div style=\'display:inline-block;font-size:10pt;white-space:nowrap;width:100%;height:' +Math.round(window.innerHeight*.43)+'px; overflow-x:hidden;overflow-y:auto;padding:2%;\'><p style=\'white-space:normal;width:90%;word-break: break-word;margin-left:10px;\'>' + pcAnnt[anntIx] + '</p></div><div id=\'buttonCont\'style=\'bottom:0;white-space:normal;width:100%;height:' +Math.round(window.innerHeight*.4)+'px;\'><center>Select picture size</center><br/><div class=\'rdb\'><input type=\'radio\' id=\'rbLarge\' name=\'rButton\' value=\'large\'><label for=\'rbLarge\'>Large</label></div><div class=\'rdb\'><input type=\'radio\' id=\'rbMed\' name=\'rButton\' value=\'medium\'><label for=\'rbMed\'>Medium</label></div><div class=\'rdb\'><input type=\'radio\' id=\'rbSmall\' name=\'rButton\' value=\'small\'><label for=\'rbSmall\'>Small</label></div><div class=\'dshButt\'>Cancel</div><div class=\'dshButt\' onclick=\'javascript:picDownload();\'>Download</div></div>');
+
+						document.getElementsByClassName('dshButt')[0].addEventListener('click', function () {
+						document.getElementById('dashBrInsCont').innerHTML = '';
+						document.getElementById('selCntOut').style.display = 'none';
+
+						document.getElementById('screenD').style.display = 'none';
+						return false;
+						},false);
+					},false);
+				}
+				else
+				{
+					thisImg.style.width = window.innerWidth*.4 + 'px';
+					thisImg.style.height = 'auto';
+					dshBD.style.width = window.innerWidth*.3 + 'px';	
+					document.getElementById('selCntOut').style.width = window.innerWidth*.66 + 'px';
+
+					thisImg.addEventListener('load', function () {
+						thisImg.style.height = thisImg.offsetHeight + 'px';
+						dshBD.style.height = thisImg.clientHeight   + 'px';
+						document.getElementById('dashBrInsCont').style.height = thisImg.clientHeight*.95 + 'px';
+						document.getElementById('picHoldD').style.width = 'auto';
+
+						document.getElementById('dashBrInsCont').insertAdjacentHTML('afterbegin', '<div style=\'display:inline-block;font-size:10pt;white-space:normal;width:100%;height:' +Math.round(thisImg.clientHeight*.6)+ 'px;overflow-x:hidden;overflow-y:auto;padding:2%;\'><p style=\'white-space:normal;width:90%;word-break: break-word;margin-left:10px;\'>' + pcAnnt[anntIx] + '</p></div><div id=\'buttonCont\'style=\'white-space:normal;width:100%;height:' +Math.round(thisImg.clientHeight*.25)+ 'px;\'><center>Select picture size</center><br/><div class=\'rdb\'><input type=\'radio\' id=\'rbLarge\' name=\'rButton\' value=\'large\'><label for=\'rbLarge\'>Large</label></div><div class=\'rdb\'><input type=\'radio\' id=\'rbMed\' name=\'rButton\' value=\'medium\'><label for=\'rbMed\'>Medium</label></div><div class=\'rdb\'><input type=\'radio\' id=\'rbSmall\' name=\'rButton\' value=\'small\'><label for=\'rbSmall\'>Small</label></div><div class=\'dshButt\'>Cancel</div><div class=\'dshButt\' onclick=\'javascript:picDownload();\'>Download</div></div>');
+						document.getElementsByClassName('dshButt')[0].addEventListener('click', function () {
+						document.getElementById('dashBrInsCont').innerHTML = '';
+						document.getElementById('selCntOut').style.display = 'none';
+						document.getElementById('screenD').style.display = 'none';return false;
+						},false);
+					},false)
+				}
+			}
+			else
+			{
+				console.log ('&&&&&&&&&&&LOADING%%%%%%%%%%%%%');
+		//		thisImg.onerror = alert('Error');
+			}
+	}catch (err) {alert('Error'); 
+			document.getElementById('selCntOut').style.display = 'none';
+			document.getElementById('screenD').style.display = 'none';
+			}
+}//eof
+function dashBrdSize (thisImg) {
+	
+		if (thisImg.complete == true){
+		
+		document.getElementById('dashBrD').style.height = thisImg.clientHeight + 'px';
+		console.log('1 '+document.getElementById('dashBrD').style.height);
+		console.log(thisImg.clientHeight);
+		console.log(thisImg.offsetHeight);
+		console.log(thisImg.innerHeight);
+		console.log(window.innerHeight);
+		clearInterval(t);
+		}
+		else
+		{
+		var t = setInterval(dashBrdSize,1000);	
+		}
+}//eof
+function picDownload () {
+	var GET_RBTT_ = document.getElementsByName('rButton'); 
+              
+	for(let i = 0; i < GET_RBTT_.length; i++) { 
+		if(GET_RBTT_[i].checked) {
+		var RBTT_CHK = GET_RBTT_[i].value; 
+		alert(RBTT_CHK);
+		}//EOIF 
+	}//EOFOR
+	
+		if(typeof RBTT_CHK === 'undefined'){
+		alert("Please check the \"Size\" button.");
+		return false;
+		}//EOIF
+
+}//eof
+</script>
+
+</head>
+
+<body>
+<div id="outContn">
+	<div id="insdCont"></div>
+</div>
+<div id="selCntOut">
+	<div id="selCntIn">
+		<div id="picHoldD"></div>
+			<div id="dashBrD">			
+				<div id="dashBrInsCont">			
+				</div>
+			</div><!--eof dashBrD-->		
+	</div><!--eof selCntIn-->
+</div><!--eof selCntOut-->
+
+<div id="screenD"></div>
+</body>
+</html>

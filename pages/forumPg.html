@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="description" content="Running pictures gallery">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-name" content="&Shop">
+<!-- Style sheet for this page: -->
+<link rel="stylesheet" href="..\CSS_\forum_styles_.css"> 
+
+<script type="text/javascript" src="../DB_/db_storage_.json"></script>
+
+<title>Forum</title>
+
+<script>
+
+var wH = window.innerHeight;
+var usIp;
+function getUserIP_(){
+var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		usIp = this.responseText;
+		}//eoif
+	};//eof
+	xhttp.open("GET", "http://api.ipify.org?format=json", true);
+	xhttp.send();
+}//eof
+function setForumElements_(){
+	console.log(usIp);
+////////////////////////////////////////////////////
+var entrD = document.createElement("div");
+	entrD.setAttribute("class", "entrDv");
+	
+		document.getElementById("entrDv").appendChild(entrD);
+		
+var msgFld = document.getElementById("msgDiv_");
+	
+		if(msgFld !== null && msgFld.innerHTML === ""){
+		alert("Please revise the comment field: it should be filled to post a comment."); return false;
+		}
+		else
+		{
+		entrD.innerHTML = "<div id=\"usTxtWrp\"><div id=\"usTxt\"> " + usIp.toString() 
+		+ " wrote:  </div></div><div id=\"msgSpn\" style=\"padding-left:10px;\">TEST-" 
+		+ document.getElementById("msgDiv_").innerText + "</div>";
+		setScroll_();
+		msgFld.innerHTML = "";
+		}
+}//eof
+function initialSettings_(){
+	<!-- if (parent.credent_flag == false){alert("FALSE");}else{alert("TRUE");} -->
+	document.getElementById("entrWrp").style.height = parseInt(wH * 0.6) + "px";
+	document.getElementById("msgDiv_").contentEditable = true;
+}//eof
+function startThisCluster_(){
+initialSettings_();
+getUserIP_();
+}//eof
+function setScroll_(){
+var entrWrCn = document.getElementById("entrWrp");
+	entrWrCn.scrollTop = entrWrCn.scrollHeight;
+}//eof	
+function verify_credentials(){
+	if (parent.credent_flag == false){alert("FALSE");}else{alert("TRUE");}
+}//eof
+</script>
+
+</head>
+
+<body onload = "javascript:startThisCluster_();">
+
+<!--div id="backgroundDiv"></div-->
+<div id="container"></div>
+
+
+<div id="contD">
+	<div id="entrWrp">
+		<div id="entrDv"></div>
+	</div><!--eof entrWrp-->
+</div><!--eof contD-->
+
+<div id="msgWrp">
+<div id="msgPstWr">
+<div id="msgPstDv" onclick="setForumElements_();">Post a comment</div><!--msgPstDv-->
+</div><!--msgPstWr-->
+<div id="msgDiv_" onclick="verify_credentials();"></div><!--eof msgDiv_-->
+</div><!--eof msgWrp-->
+
+<!-- <div id="signD"> -->
+<!-- <h4>Please enter your username and password</h4> -->
+<!-- <label for="entrUsn">Username: (sergey)</label></br> -->
+<!-- <input type="text" id="entrUsn"></br></br> -->
+<!-- <label for="entrPass">Password: (qa2020)</label></br> -->
+<!-- <input type="text" id="entrPass"><br/> -->
+<!-- <button type="button" onclick="askCredentials_(2);">Join</button> &nbsp  -->
+<!-- <button type="button" onclick="askCredentials_(0);">Cancel</button><br/> -->
+<!-- </div> -->
+
+<script>
+
+var flg1 = true;
+
+function askCredentials_(req_type_){
+console.log('askCredentials_');
+var getJson, usNm, usPass, x, y;
+
+getJson = JSON.parse(dataSrc);
+
+var usNm = document.getElementById("entrUsn").value;
+var usPass = document.getElementById("entrPass").value;
+	if (req_type_ == 0) { document.getElementById("signD").style.display = "none"; flg1 = true; return;}
+	else if(req_type_ == 1 && flg1 == true){
+	document.getElementById("signD").style.display = "table";
+	}
+	else if(req_type_ == 3){document.getElementById("signD").style.display = "none"; return flg1;}
+		else{
+			for(var i = 0; i < getJson.length; i++) {
+			var gtObj = getJson[i];
+			var lstUsn = getJson[getJson.length-1].username_;
+			var lstPass = getJson[getJson.length-1].password_;
+			
+				if(gtObj.username_ == usNm && gtObj.password_ == usPass){
+				document.getElementById("msgDiv_").contentEditable = true;
+				document.getElementById("signD").style.display = "none"; flg1 = false; return flg1;}//eoif
+			}//eofor
+				if(lstUsn != usNm && lstPass != usPass){
+				alert("Invalid username and password"); flg1 = true;
+				return flg1;}//eoif
+	}//eoif
+}//eof
+</script>
+
+</body>
+</html>
