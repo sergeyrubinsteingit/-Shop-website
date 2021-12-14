@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="description" content="Homepage">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="application-name" content="&Shop">
+
+<link rel="icon" href="imgsUI\favicon_mysite-01.png" sizes="16x16" type="image/png">
+<!-- Style sheet for this page: -->
+<link rel="stylesheet" href="CSS_\mysite_css_list_.css">
+
+<title>&Shop website</title>
+
+<script>
+
+let t = setInterval ( function () {
+	console.log ('wait----');
+	if ( document.readyState == 'complete' ) {
+	layoutSettings (true,0);
+	console.log('Complete');
+	clearInterval (t);
+	}	
+},500);
+
+	var display_mode_flag = true;
+	var ifrm;
+	var pgPth = '.\\pages\\';
+		var stPgs = [
+			'galleryPg.html',
+			'filePg.html',
+			'aboutPg.html',
+			'forumPg.html',
+			'contactPg.html',
+			'illustrPg.html',
+			'accessrPg.html',
+			'textilPg.html',
+		];
+function layoutSettings (a,b) {
+	display_mode_flag = a; // The UI is changed according to this flag being set to True or Falce
+	var wW = window.innerWidth;
+	var wH = window.innerHeight;
+	ifrm = document.getElementById('demoIframe'); // Iframe for the changable content, html files
+	frameDiv = document.getElementById('changablePages'); // DIV for the changable content, html files
+
+	var lfTopD = document.getElementById('leftTopDiv');
+	var lfBottD = document.getElementById('leftBottomDiv');
+	var nvBtt1 = document.getElementsByClassName('navButton');
+	var nvBtt2 = document.getElementsByClassName('sign');
+	var tblGlr = document.getElementsByClassName('tblGlr');
+	var navBar = document.getElementById('navBar');
+	<!-- ifrm.src = pgPth + stPgs[b]; // Path to site's page -->
+	<!-- frameDiv.innerHTML = pgPth + stPgs[b]; // Path to site's page -->
+	<!-- fetch(pgPth + stPgs[b]).then(data => data.text()).then(html => frameDiv.innerHTML = html); -->
+    frameDiv.innerHTML='<object type="text/html" data="' + pgPth + stPgs[b] + '" style="width:100%;height:100%;"></object>';
+
+		
+		for (let i = 0; i < nvBtt1.length; i++) {nvBtt1[i].style.width = wW/14 + 'px';}
+		for (let i = 0; i < nvBtt2.length; i++) {nvBtt2[i].style.width = wW/14 + 'px';}		
+		for (let i = 0; i < nvBtt1.length; i++) {nvBtt1[i].onclick = function () {navigation(this,1);}}
+		for (let i = 0; i < tblGlr.length; i++) {tblGlr[i].onclick = function () {navigation(this,2);}}
+		
+	if(display_mode_flag == true){
+		lfTopD.style.top = 0 + 'px';
+		lfTopD.style.left = 0 + 'px';
+		lfTopD.style.width = wW * .5 + 'px';
+		lfTopD.style.height = wH * .2 + 'px';
+		
+		lfBottD.style.top = wH * .2 + 'px';
+		lfBottD.style.left = 0 + 'px';
+		lfBottD.style.width = wW * .2 + 'px';
+		lfBottD.style.height = wH * .8 + 'px';
+		
+		<!-- ifrm.style.top = wH * .2 + 'px'; -->
+		<!-- ifrm.style.left = wW * .2 + 'px'; -->
+		<!-- ifrm.style.width = wW * .8 + 'px'; -->
+		<!-- ifrm.style.height = wH * .8 + 'px'; -->
+
+		frameDiv.style.top = wH * .2 + 'px';
+		frameDiv.style.left = wW * .2 + 'px';
+		frameDiv.style.width = wW * .8 + 'px';
+		frameDiv.style.height = wH * .8 + 'px';
+
+		navBar.style.height = 30 + '%';
+			for (let i5 = 0; i5 < nvBtt1.length; i5++) {
+				nvBtt1[i5].style.textAlign = 'center';
+			}
+			for (let i5 = 0; i5 < nvBtt2.length; i5++) {
+				nvBtt2[i5].style.textAlign = 'center';
+			}
+
+		display_mode_flag = false; return display_mode_flag;
+		}
+		else
+		{
+		lfTopD.style.top = 0 + 'px';
+		lfTopD.style.left = 0 + 'px';
+		lfTopD.style.width = wW * .2 + 'px';
+		lfTopD.style.height = wH * .3 + 'px';
+		
+		lfBottD.style.top = wH * .3 + 'px';
+		lfBottD.style.left = 0 + 'px';
+		lfBottD.style.width = wW * .2 + 'px';
+		lfBottD.style.height = wH * .7 + 'px';
+		
+		<!-- ifrm.style.top = 0 + 'px'; -->
+		<!-- ifrm.style.left = wW * .2 + 'px'; -->
+		<!-- ifrm.style.width = wW * .8 + 'px'; -->
+		<!-- ifrm.style.height = wH + 'px'; -->
+		
+		frameDiv.style.top = 0 + 'px';
+		frameDiv.style.left = wW * .2 + 'px';
+		frameDiv.style.width = wW * .8 + 'px';
+		frameDiv.style.height = wH + 'px';
+	
+		navBar.style.height = 30 + '%';
+			for (let i5 = 0; i5 < nvBtt1.length; i5++) {
+				nvBtt1[i5].style.textAlign = 'left';
+			}
+			for (let i5 = 0; i5 < nvBtt2.length; i5++) {
+				nvBtt2[i5].style.textAlign = 'left';
+			}
+
+		display_mode_flag = true; return display_mode_flag;
+		}//eoif
+		console.log('ifrm.style.left = ' + ifrm.style.left);
+}//EOF
+function navigation (callId,listId) {
+	<!-- Arranges the navigation bars -->
+	var callInd;
+	var classNm;
+		if ( listId == 1 ) {
+			classNm = 'navButton';
+		}
+		else
+		{
+			classNm = 'tblGlr';
+		}//eoif
+	var btns = document.getElementsByClassName( classNm );
+
+		if ( listId == 1 ) {
+			<!-- Links array for the TOP navbar -->
+			stPgs = [
+				'galleryPg.html',
+				'filePg.html',
+				'aboutPg.html',
+				'forumPg.html',
+				'contactPg.html'
+			];	
+		}
+		else
+		{
+			<!-- Links array for the SIDE navbar -->
+			stPgs = [
+				'illustrPg.html',
+				'accessrPg.html',
+				'textilPg.html',
+			];				
+		}//eoif
+		console.log('stPgs = ' + stPgs +' '+ listId);
+		console.log('callId  ' +callId);
+		callInd = parseInt( Array.prototype.slice.call(btns).indexOf(callId) );	
+		frameDiv.innerHTML='<object type="text/html" data="' + pgPth + stPgs[callInd] + '" style="width:100%;height:100%;"></object>';
+<!-- Keep thhis Iframe option -->
+		<!-- ifrm.src = pgPth + stPgs[callInd]; -->
+
+		<!-- <!-- The use of iframe is to be reconcidered later on.  -->
+		<!-- Perhaps, iframe should be replaced with a div-container to avoid cross-object issues. Below is a possible replacement: -->
+		<!-- ifrm.innerHTML = '<object type="text/html" data='+pgPth + stPgs[callInd]+'></object>' -->
+			if (callInd == 0 && listId == 1) {display_mode_flag = true;} else {display_mode_flag = false;}
+		<!-- This line shows up a hint to click on picture icon in case the Illustrations option is selected by user -->
+			if (callInd == 0 && listId != 1){document.getElementById('clickImg_hint').style.display = "block";}
+			else {document.getElementById('clickImg_hint').style.display = "none";}//eoif
+		layoutSettings(display_mode_flag,callInd);
+}//eof
+</script>
+
+<script type="text/javascript" src="DB_\db_storage_.json"></script>
+
+
+</head>
+
+<body>
+
+<div id="leftTopDiv">
+	<div id="logoDiv"><img id="logoImg" src=".\imgsUI\logoShop.png" /></div>
+	<div id="navBar">
+		<div class="navButton">Home</div>
+		<div class="navButton">File manager</div>
+		<div class="navButton">About us</div>
+		<div class="navButton">Forum</div>
+		<div class="navButton">Contact us</div>
+			<div class="signWrp">
+				<div class="sign"  onclick="askCredentials_(1);">Sign in</div>
+				<div class="sign"  onclick="askCredentials_(1);">Sign up</div>
+			</div>
+	</div>
+</div>
+<div id="leftBottomDiv">
+	<div id="ULd">
+		<ul>
+			<li class='tblGlr'>Illustrations</li>
+			<li class='tblGlr'>Accessories</li>
+			<li class='tblGlr'>Textiles</li>
+		</ul>
+	</div>
+</div>
+<div id="changablePages"></div>
+<!-- <iframe id="demoIframe"></iframe> -->
+<div id="container">
+	<img id="backgroundImg" src=".\imgsUI\backgroundImgMySite.gif" alt="gerbera flowers and golden fish" />
+</div>
+
+<!-- The div below builds an autenication window -->
+<div id="signD">
+<h4>Please enter your username and password</h4>
+<label for="entrUsn">Username: (sergey)</label></br>
+<input type="text" id="entrUsn"></br></br>
+<label for="entrPass">Password: (qa2020)</label></br>
+<input type="text" id="entrPass"><br/>
+<button type="button" onclick="askCredentials_(2);">Join</button> &nbsp 
+<button type="button" onclick="askCredentials_(0);">Cancel</button><br/>
+</div>
+<script src="JS_\mysite_JS_credentials.js"></script>
+
+<div id="clickImg_hint">
+	<p style="font-family: BalooTamma,Trebuchet MS,Bookman,Times,serif;">Click the illustration's icon <br/> to see an image enlarged <br/> and to download it.</p>
+</div>
+
+</body>
+</html>
